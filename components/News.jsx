@@ -8,7 +8,6 @@ const News = () => {
     useEffect(() => {
         fetch('https://saurav.tech/NewsAPI/top-headlines/category/business/in.json').then((res) => res.json()).then((data) => setNews(data.articles))
     }, [])
-    console.log('news', news)
     return (
 
         <div className='text-gray-700 space-y-3 bg-gray-100 rounded-xl pt-2'>
@@ -26,7 +25,7 @@ const News = () => {
                     </a>
                 </div>
             ))}
-            <button onClick={() => setArticleNum(articleNum+3)} className='text-blue-400 pl-4 pb-3 hover:text-blue-500 text-sm cursor-pointer'>Load more...</button>
+            <button onClick={() => setArticleNum(articleNum + 3)} className='text-blue-400 pl-4 pb-3 hover:text-blue-500 text-sm cursor-pointer'>Load more...</button>
         </div>
     )
 }
