@@ -11,7 +11,6 @@ import { signIn, signOut, useSession } from "next-auth/react"
 const Sidebar = () => {
 
   const { data: session } = useSession();
-  console.log(session?.user)
   return (
     <div className='flex flex-col justify-between p-3 h-screen'>
       <div className='flex flex-col gap-4'>
