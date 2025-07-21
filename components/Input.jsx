@@ -31,6 +31,7 @@ const Input = () => {
         setPostLoading(false);
         setText('')
         setImage('');
+        location.reload() ;
     }
 
     if (!session) return null;
