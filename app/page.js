@@ -1,3 +1,4 @@
+import CommentModal from "@/components/CommentModal";
 import Feed from "@/components/feed";
 import Input from "@/components/Input";
 export default function Home() {

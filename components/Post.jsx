@@ -23,7 +23,7 @@ const Post = ({ post, id }) => {
                 {post && post.image && <Link href={`/post/${id}`} >
                     <img src={post?.image} alt="post-img" className='rounded-2xl mr-2' />
                 </Link>}
-                <Icons id={post.id} />
+                <Icons id={post.id} uid={post.uid} />
             </div>
         </div >
     )

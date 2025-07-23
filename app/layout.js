@@ -3,6 +3,7 @@ import "./globals.css";
 import Sidebar from "@/components/Sidebar";
 import News from "@/components/News";
 import SessionWrapper from "@/components/SessionWrapper";
+import CommentModal from "@/components/CommentModal";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "X Clone",
+  title: "Tweetly",
   description:
     "A Next.js application that mimics the X (formerly Twitter) platform",
 };
@@ -32,8 +33,8 @@ export default function RootLayout({ children }) {
               <Sidebar />
             </div>
             <div className="flex-1 w-2xl">{children}</div>
-            <div className="lg:flex-col p-3 h-screen border-l hidden lg:flex w-[24rem]">
-              <div className="sticky top-0 bg-white py-2">
+            <div className="lg:flex-col p-3 h-screen border-l hidden lg:flex w-[24rem] sticky top-0">
+              <div className="bg-white py-2">
                 <input
                   type="text"
                   placeholder="Search..."
@@ -43,6 +44,7 @@ export default function RootLayout({ children }) {
               <News />
             </div>
           </div>
+          <CommentModal />
         </body>
       </html>
     </SessionWrapper>

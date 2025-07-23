@@ -4,12 +4,15 @@ import { HiHeart, HiOutlineChat, HiOutlineHeart, HiOutlineTrash } from 'react-ic
 import { signIn, useSession } from 'next-auth/react';
 import { collection, deleteDoc, doc, getFirestore, onSnapshot, serverTimestamp, setDoc } from 'firebase/firestore';
 import { app } from '@/firebase';
+import { useModalContext } from '@/app/context/MyContext';
 
-const Icons = ({ id }) => {
+const Icons = ({ id, uid }) => {
     const { data: session } = useSession();
     const db = getFirestore(app);
     const [isLiked, setIsLiked] = useState(false);
     const [likes, setLikes] = useState([])
+
+    const { isOpen, setIsOpen } = useModalContext();
 
     const likePost = async () => {
         if (session) {
@@ -35,6 +38,20 @@ const Icons = ({ id }) => {
         setIsLiked(likes.findIndex((like) => like.id === session?.user.uid) !== -1)
     }, [likes])
 
+    const handleDelete = async () => {
+        if (window.confirm("Are you sure you want to delete this post?")) {
+            if (session?.user.uid === uid) {
+                deleteDoc(doc(db, 'posts', id)).then(() => {
+                    console.log("Post deleted successfully.")
+                    window.location.reload();
+                }).catch((err) => {
+                    console.error("Error deleting the post: ", err);
+                })
+            } else {
+                alert("You are not authorized to delete this post.")
+            }
+        }
+    }
     return (
         <div className='flex justify-start gap-5 p-2 text-gray-500'>
             <div className='flex items-center justify-center space-x-1'>
@@ -45,8 +62,8 @@ const Icons = ({ id }) => {
                 )}
                 {likes.length > 0 && <span className={`text-xs ${isLiked && "text-red-600"}`}>{likes.length}</span>}
             </div>
-            <HiOutlineChat className='h-8 w-8 cursor-pointer rounded-full transition duration-300 ease-in-out p-2 hover:text-sky-500 hover:bg-sky-100' />
-            <HiOutlineTrash className='h-8 w-8 cursor-pointer rounded-full transition duration-300 ease-in-out p-2 hover:text-red-500 hover:bg-red-100' />
+            <HiOutlineChat onClick={() => setIsOpen(!isOpen)} className='h-8 w-8 cursor-pointer rounded-full transition duration-300 ease-in-out p-2 hover:text-sky-500 hover:bg-sky-100' />
+            {session?.user.uid === uid && <HiOutlineTrash className='h-8 w-8 cursor-pointer rounded-full transition duration-300 ease-in-out p-2 hover:text-red-500 hover:bg-red-100' onClick={handleDelete} />}
         </div >
     )
 }
