@@ -12,7 +12,7 @@ const Icons = ({ id, uid }) => {
     const [isLiked, setIsLiked] = useState(false);
     const [likes, setLikes] = useState([])
 
-    const { isOpen, setIsOpen } = useModalContext();
+    const { isOpen, setIsOpen, setCommentPostId } = useModalContext();
 
     const likePost = async () => {
         if (session) {
@@ -62,7 +62,14 @@ const Icons = ({ id, uid }) => {
                 )}
                 {likes.length > 0 && <span className={`text-xs ${isLiked && "text-red-600"}`}>{likes.length}</span>}
             </div>
-            <HiOutlineChat onClick={() => setIsOpen(!isOpen)} className='h-8 w-8 cursor-pointer rounded-full transition duration-300 ease-in-out p-2 hover:text-sky-500 hover:bg-sky-100' />
+            <HiOutlineChat onClick={() => {
+                if (!session) {
+                    signIn();
+                } else {
+                    setIsOpen(!isOpen)
+                    setCommentPostId(id);
+                }
+            }} className='h-8 w-8 cursor-pointer rounded-full transition duration-300 ease-in-out p-2 hover:text-sky-500 hover:bg-sky-100' />
             {session?.user.uid === uid && <HiOutlineTrash className='h-8 w-8 cursor-pointer rounded-full transition duration-300 ease-in-out p-2 hover:text-red-500 hover:bg-red-100' onClick={handleDelete} />}
         </div >
     )

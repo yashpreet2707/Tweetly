@@ -6,9 +6,12 @@ const ModalContext = createContext();
 
 export const ModalProvider = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [commentPostId, setCommentPostId] = useState("");
 
   return (
-    <ModalContext.Provider value={{ isOpen, setIsOpen }}>
+    <ModalContext.Provider
+      value={{ isOpen, setIsOpen, commentPostId, setCommentPostId }}
+    >
       {children}
     </ModalContext.Provider>
   );
