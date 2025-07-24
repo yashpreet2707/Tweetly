@@ -5,6 +5,7 @@ import News from "@/components/News";
 import SessionWrapper from "@/components/SessionWrapper";
 import CommentModal from "@/components/CommentModal";
 import { ThemeProvider } from "@/lib/ThemeProvider";
+import MobileSidebar from "@/components/MobileSidebar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,9 +37,11 @@ export default function RootLayout({ children }) {
             disableTransitionOnChange
           >
             <div className="flex justify-between max-w-7xl mx-auto">
-              {/* Sidebar */}
               <div className="hidden sm:inline border-r dark:border-gray-800 h-screen sticky top-0">
                 <Sidebar />
+              </div>
+              <div className="sm:hidden">
+                <MobileSidebar />
               </div>
 
               {/* Main content */}
