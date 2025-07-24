@@ -34,7 +34,7 @@ export default function RootLayout({ children }) {
             </div>
             <div className="flex-1 w-2xl">{children}</div>
             <div className="lg:flex-col p-3 h-screen border-l hidden lg:flex w-[24rem] sticky top-0">
-              <div className="bg-white py-2">
+              <div className="bg-white py-2 sticky top-0">
                 <input
                   type="text"
                   placeholder="Search..."

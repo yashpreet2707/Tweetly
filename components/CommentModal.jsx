@@ -4,16 +4,17 @@ import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { useSession } from "next-auth/react";
 import { HiX } from "react-icons/hi";
-import { doc, getFirestore, onSnapshot } from "firebase/firestore";
-import { DevBundlerService } from "next/dist/server/lib/dev-bundler-service";
+import { addDoc, collection, doc, getFirestore, onSnapshot, serverTimestamp } from "firebase/firestore";
 import { app } from "@/firebase";
-
+import { useRouter } from "next/navigation";
 
 const CommentModal = () => {
     const { data: session } = useSession();
     const { isOpen, setIsOpen, commentPostId } = useModalContext();
     const [post, setPost] = useState({});
     const db = getFirestore(app);
+
+    const router = useRouter();
 
     const [input, setInput] = useState('');
 
@@ -32,10 +33,21 @@ const CommentModal = () => {
         }
     }, [commentPostId])
 
-    console.log('p[opst', post)
 
     const sendComment = async () => {
-        
+        addDoc(collection(db, 'posts', commentPostId, 'comments'), {
+            name: session.user.name,
+            username: session.user.username,
+            userImg: session.user.image,
+            comment: input,
+            timestamp: serverTimestamp(),
+        }).then(() => {
+            setInput('');
+            setIsOpen(false);
+            router.push(`/posts/${commentPostId}`)
+        }).catch((err) => {
+            console.error("error adding the comment: ", err);
+        })
     }
     return (
         <div>
