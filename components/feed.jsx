@@ -7,19 +7,19 @@ export default async function Feed() {
     const q = query(collection(db, 'posts'), orderBy('timestamp', 'desc'));
     const querySnapshot = await getDocs(q);
 
-    let data = []
+    let data = [];
     querySnapshot.forEach((doc) => {
         data.push({
             id: doc.id,
             ...doc.data()
-        })
+        });
     });
 
     return (
-        <div>
+        <div className="bg-white dark:bg-black text-black dark:text-white">
             {data.map((post) => (
                 <Post key={post.id} post={post} id={post.id} />
             ))}
         </div>
-    )
-} 
+    );
+}
