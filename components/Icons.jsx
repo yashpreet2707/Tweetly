@@ -16,18 +16,15 @@ const Icons = ({ id, uid }) => {
     const { isOpen, setIsOpen, setCommentPostId } = useModalContext();
 
     const likePost = async () => {
-        if (session) {
-            // like it 
-            if (isLiked) {
-                await deleteDoc(doc(db, 'posts', id, 'likes', session?.user.uid))
-            }
-            await setDoc(doc(db, 'posts', id, 'likes', session.user.uid), {
-                username: session.user.username,
-                timestamp: serverTimestamp(),
-            })
-        } else {
-            signIn();
+        if (!session) signIn();
+        if (isLiked) {
+            await deleteDoc(doc(db, 'posts', id, 'likes', session?.user.uid))
+            return;
         }
+        await setDoc(doc(db, 'posts', id, 'likes', session.user.uid), {
+            username: session.user.username,
+            timestamp: serverTimestamp(),
+        })
     }
     useEffect(() => {
         onSnapshot(collection(db, 'posts', id, 'likes'), (snapshot) => {

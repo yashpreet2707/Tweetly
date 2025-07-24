@@ -44,7 +44,7 @@ const CommentModal = () => {
         }).then(() => {
             setInput('');
             setIsOpen(false);
-            router.push(`/posts/${commentPostId}`)
+            router.push(`/post/${commentPostId}`)
         }).catch((err) => {
             console.error("error adding the comment: ", err);
         })
